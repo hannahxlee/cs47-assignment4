@@ -1,22 +1,28 @@
 import { Image, View, StyleSheet, Text } from "react-native";
 import { Themes } from "../../assets/Themes";
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { millisToMinutesAndSeconds } from "../../utils";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
-export const Song = ({id, albumImage, songTitle, songArtist, albumName, duration}) => {
-    console.log(albumImage)
+export const Song = ({ navigation, albumImage, songTitle, songArtist, albumName, externalUrl, previewUrl, duration }) => {
     return (
         <View style={styles.container}>
-            <View style={styles.id}>
-                <Text style={styles.lightText}>{id}</Text>
-            </View>
+            <Pressable 
+                style={styles.button}
+                onPress={() => navigation.navigate('Preview', { preview: previewUrl })}>
+                <Ionicons name="play-circle" size={20} color={Themes.colors.spotify}/>
+            </Pressable>
             <View style={styles.cover}>   
                 <Image style={styles.image} source={{uri: albumImage}}/>
             </View> 
-            <View style={styles.songInfo}>
+            <Pressable
+                style={styles.songInfo}
+                onPress={() => navigation.navigate('Details', { details: externalUrl })}>
                 <Text style={styles.text} numberOfLines={1}>{songTitle}</Text>
                 <Text style={styles.lightText} numberOfLines={1}>{songArtist}</Text>
-            </View>    
+            </Pressable>   
             <View style={styles.album}>
                 <Text style={styles.text}>{albumName}</Text>
             </View>
@@ -37,15 +43,14 @@ const styles = StyleSheet.create({
         backgroundColor: Themes.colors.background,
         padding: 5,
     },
-    id: {
-        width: '5%', 
+    button: {
+        width: '10%', 
         alignItems: 'center',
         justifyContent: 'center',
     },
     cover: {
         width: '20%', 
-        paddingLeft: 15,
-        paddingRight: 20,
+        paddingRight: 10, 
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
         opacity: 0.6,
     },
     songInfo: {
-        width: '40%',
+        width: '35%',
         flexDirection: 'column',
         paddingRight: 15, 
     },

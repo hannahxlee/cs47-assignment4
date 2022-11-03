@@ -1,10 +1,10 @@
 import { FlatList, Image, View, StyleSheet, Text } from "react-native";
 import { Themes } from "../../assets/Themes";
 
-import Song from "./songs"
+import Song from "./Songs";
 
-export const SongList = ({tracks}) => {
-    const renderSong = ({item, index}) => (
+export const SongList = ({ navigation, tracks }) => {
+    const renderSong = ({ item, index }) => (
         <Song
             id={index + 1}
             albumImage={item.album.images[0].url}
@@ -12,6 +12,9 @@ export const SongList = ({tracks}) => {
             songArtist={item.artists[0].name}
             albumName={item.album.name}
             duration={item.duration_ms}
+            externalUrl={item.external_urls.spotify}
+            previewUrl={item.preview_url}
+            navigation={navigation}
         />
     );
 

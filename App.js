@@ -1,37 +1,43 @@
 import React, { useState } from "react";
 import { Image, View, StyleSheet, SafeAreaView, Text } from "react-native";
-import { useSpotifyAuth } from "./utils";
 import { Themes } from "./assets/Themes";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import SpotifyAuthButton from "./app/components/button"
-import SongList from "./app/components/list" 
-import Player from "./app/components/player"
+import HomeScreen from "./app/screens/HomeScreen";
+import Preview from "./app/screens/Preview";
+import Details from "./app/screens/Details";
 
 export default function App() {
-  // Pass in true to useSpotifyAuth to use the album ID (in env.js) instead of top tracks
-  const { token, tracks, getSpotifyAuth } = useSpotifyAuth(true);
+  const Stack = createStackNavigator();
 
-  let contentDisplayed = null;
-
-  if (token) {
-    contentDisplayed = <SongList tracks={tracks}/>
-  } else {
-    contentDisplayed = <SpotifyAuthButton authFunction={getSpotifyAuth} />
-  }
-  
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <Player index={index} /> */}
-      {contentDisplayed}
-    </SafeAreaView>
+      <NavigationContainer>
+          <Stack.Navigator>
+              <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+              <Stack.Screen name="Preview" component={Preview} 
+                options={{
+                  title: 'Song preview',
+                  headerStyle: {
+                  backgroundColor: Themes.colors.background,
+                  },
+                  headerTitleStyle: {
+                    color: Themes.colors.white,
+                  },
+                  headerBackTitle: 'Back',
+                }}/>
+              <Stack.Screen name="Details" component={Details} 
+                options={{
+                  title: 'Song details',
+                  headerStyle: {
+                  backgroundColor: Themes.colors.background,
+                  },
+                  headerTitleStyle: {
+                    color: Themes.colors.white,
+                  },
+                  headerBackTitle: 'Back',
+                }}/>    
+          </Stack.Navigator>
+      </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Themes.colors.background,
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-});
+};

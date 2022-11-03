@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import { Themes } from "../../assets/Themes";
 
-export const SpotifyAuthButton = ({authFunction}) => {
+export const SpotifyAuthButton = ({ authFunction }) => {
     return (
         <Pressable
             style={styles.button}
